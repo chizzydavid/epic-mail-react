@@ -1,13 +1,56 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // import { logoutUser } from '../../actions/authActions';
 
 class Navbar extends Component {
-	render() {
-    const { home } = this.props;
+	constructor(props) {
+		super(props);
+		this.state = {
+			responsiveMode: false,
+			isOpen: false,
+		}
+		this.setResponsiveMode = this.setResponsiveMode.bind(this);
+		this.toggleOpen = this.toggleOpen.bind(this);
+	}
 
-    const logoUrl = `./src/img/epic_logo${home ? ".png" : "_white.png"}`;
+
+	componentDidMount() {
+		this.setResponsiveMode();
+		window.addEventListener('resize', this.setResponsiveMode);
+	}
+
+	setResponsiveMode() {
+		if (window.innerWidth <= 760) {
+			this.setState({
+				responsiveMode: true
+			})
+		} else {
+			this.setState({
+				responsiveMode: false
+			})
+		}
+	}
+
+	toggleOpen() {
+		const { isOpen } = this.state;
+		this.setState({
+			isOpen: !isOpen
+		})
+	}
+
+	render() {
+		const { responsiveMode, isOpen } = this.state;
+		const { home } = this.props;
+
+		const logoUrl = `./src/img/epic_logo${home ? ".png" : "_white.png"}`;
+		const navbarClassname = () => {
+			let classname = 'navbar';
+			classname = responsiveMode ? `responsive ${classname}` : classname;
+			classname = isOpen ? `open ${classname}` : classname;
+			return classname;
+		}
     
     let NavbarLinks = (
         <React.Fragment>
@@ -20,15 +63,30 @@ class Navbar extends Component {
 			<nav className="nav-container" id={home ? "home-nav" : "page-nav"}>
 				<div className="brand-icon">
 					<p className="logo"><img className="logo-img" src={logoUrl}/></p>
-					<i id={home ? "nav-icon-home" : "nav-icon"} className="fa fa-bars"></i>
+
+					<i 
+						id={home ? "nav-icon-home" : "nav-icon"} 
+						className={isOpen ? 'fa fa-times': 'fa fa-bars'}
+						onClick={this.toggleOpen}
+					>
+					</i>
+
 				</div>
 
-				<div className="navbar" id="navigation" data-view={home ? "home" : "page"}>
+				<div 
+					className={navbarClassname()}
+					id="navigation" 
+					data-view={home ? "home" : "page"}
+				>
 					{NavbarLinks}
 				</div>
 			</nav>
 		)
 	}
 }
+
+Navbar.propTypes = {
+  home: PropTypes.bool,
+};
 
 export default Navbar;

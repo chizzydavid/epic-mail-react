@@ -1,0 +1,27 @@
+export const INIT_AUTH_REQUEST= 'INIT_AUTH_REQUEST';
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
+export const AUTH_ERROR = 'AUTH_ERROR';
+
+export const BEGIN_MSG_REQUEST= 'BEGIN_MSG_REQUEST';
+
+export const END_MSG_REQUEST= 'END_MSG_REQUEST';
+
+export const SET_RECEIVED_MESSAGES = 'SET_RECEIVED_MESSAGES';
+
+export const SET_UNREAD_MESSAGES = 'SET_UNREAD_MESSAGES';
+
+export const SET_READ_MESSAGES = 'SET_READ_MESSAGES';
+
+export const SET_SENT_MESSAGES = 'SET_SENT_MESSAGES';
+
+export const SET_DRAFTS = 'SET_DRAFTS';
+
+export const MSG_FEEDBACK = 'MSG_FEEDBACK';
+
+export const MSG_ERROR = 'MSG_ERROR';
+
+export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
+
+export const INIT_GET_REQUEST = 'INIT_GET_REQUEST';
