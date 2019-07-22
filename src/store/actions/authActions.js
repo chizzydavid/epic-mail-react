@@ -33,3 +33,23 @@ export const setCurrentUser = payload => {
     payload: payload
   }
 }
+
+export const loginUser = (payload) => dispatch => {
+  dispatch({type: INIT_AUTH_REQUEST});
+
+  axios.post(`${authUrl}login`, payload)
+    .then((res) => {
+      const { token, user } = res.data.data;
+      localStorage.setItem('token', token);
+
+      setAuthToken(token);
+      dispatch(setCurrentUser(user));
+    })
+    .catch(err => {
+      dispatch({
+        type: AUTH_ERROR,
+        payload: err.response.data
+      })
+    }) 
+}
+
