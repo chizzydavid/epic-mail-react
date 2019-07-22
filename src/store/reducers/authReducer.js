@@ -3,7 +3,7 @@ import {
     INIT_AUTH_REQUEST,
     SET_CURRENT_USER
   } from "../actions/types";
-  import isEmpty from '../utils/isEmpty';
+  import isEmpty from '../../utils/isEmpty';
   
   const initialState = {
     isAuthenticated: false,

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './store/index';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import jwtDecode from 'jwt-decode';
-import { setCurrentUser } from './actions/authActions';
+import { setCurrentUser } from './store/actions/authActions';
 import setAuthToken from './utils/setAuthToken';
 import './App.css';
 
@@ -22,11 +22,11 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div>
+          <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/sign-up" component={SignUp} />
             <Route component={NotFound} />
-          </div>
+          </Switch>
         </Router>
       </Provider>
     )

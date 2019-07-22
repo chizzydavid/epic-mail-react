@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authAction should decode user token when registerUser is successful 1`] = `
+Array [
+  Object {
+    "type": "INIT_AUTH_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "error": "Email already exists.",
+      "status": 400,
+    },
+    "type": "AUTH_ERROR",
+  },
+]
+`;
+
+exports[`authAction should handle errors returned from the request 1`] = `
+Array [
+  Object {
+    "type": "INIT_AUTH_REQUEST",
+  },
+  Object {
+    "payload": "<!DOCTYPE html>
+<html lang=\\"en\\">
+<head>
+<meta charset=\\"utf-8\\">
+<title>Error</title>
+</head>
+<body>
+<pre>Internal Server Error</pre>
+</body>
+</html>
+",
+    "type": "AUTH_ERROR",
+  },
+]
+`;

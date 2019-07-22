@@ -2,22 +2,30 @@ import React, { Component } from 'react'
 import Navbar from '../components/shared/Navbar';
 import Footer from '../components/shared/Footer';
 import TextInput from '../components/shared/TextInput';
+import Button from '../components/shared/Button';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, withRouter, Redirect } from 'react-router-dom';
-import { signUpUser } from '../actions/authActions';
+import { signUpUser } from '../store/actions/authActions';
 
-class SignUp extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    errors: {}
-  } 
+export class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      errors: {}
+    };
 
-  handleChange = (e) => {
+    this.handleChange = this.handleChange.bind(this);
+    this.validateFormInput = this.validateFormInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
     const { errors } = this.state;
 
     this.setState({
@@ -29,7 +37,7 @@ class SignUp extends Component {
     })
   }
 
-  validateFormInput = () => {
+  validateFormInput() {
     let errors = {};
     const nameRegx = /^[a-zA-Z]{2,}$/;
     const emailRegx = /^\S+@\S+\.[\w]+$/;
@@ -92,7 +100,7 @@ class SignUp extends Component {
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit(e) {
     e.preventDefault();
 
     if (this.validateFormInput()) {
@@ -110,17 +118,14 @@ class SignUp extends Component {
 
   render() {
     const { isLoading, isAuthenticated, errors } = this.props.auth;
-    console.log(this.props.auth);
-
     if (isAuthenticated) {
-      // return <Redirect to="/dashboard" />;
+      return <Redirect to="/dashboard" />;
     }    
     const { 
       firstName, lastName, email, password, confirmPassword 
     } = this.state.errors;
     
-    const { error } = this.props.auth.errors;
-    const authError = error || '';
+    const authError = errors.error || '';
 
     return (
       <React.Fragment>
@@ -139,7 +144,7 @@ class SignUp extends Component {
                 placeholder="First name" 
                 label="First Name" 
               />
-              
+
               <TextInput 
                 error={lastName ? lastName : ''} 
                 handleChange={this.handleChange} 
@@ -148,7 +153,7 @@ class SignUp extends Component {
                 placeholder="Last name" 
                 label="Last Name" 
               />
-              
+
               <TextInput 
                 error={email ? email : ''} 
                 handleChange={this.handleChange} 
@@ -157,7 +162,7 @@ class SignUp extends Component {
                 placeholder="Enter email" 
                 label="Email" 
               />
-              
+
               <TextInput 
                 error={password ? password : ''} 
                 handleChange={this.handleChange} 
@@ -166,7 +171,7 @@ class SignUp extends Component {
                 placeholder="Enter password" 
                 label="Password"
               />
-              
+
               <TextInput 
                 error={confirmPassword ? confirmPassword : ''} 
                 handleChange={this.handleChange} 
@@ -175,13 +180,17 @@ class SignUp extends Component {
                 placeholder="Confirm password" 
                 label="Confirm Password" 
               />
-              
+
 
               <p className="label">Upload Image</p>
               <img  width="150px" id="image-preview" />        
               <input id="image-upload" name="photo" type="file" accept="image/*" />
 
-              <button type="submit" id="submit">{isLoading ? 'Please wait..' : 'Submit'}</button>
+              <Button
+                type="submit"
+                classname="submit"
+                text={isLoading ? 'Please wait..' : 'Submit'}
+              />
               <p>Already have an account? <Link className="sign-link" to="/login">Log In</Link></p>
             </div>
           </form>
