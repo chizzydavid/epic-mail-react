@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`authAction should retrieve messages of different categories 1`] = `
+Array [
+  Object {
+    "type": "BEGIN_MSG_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "error": "No Authentication Token Provided.",
+      "status": 401,
+    },
+    "type": "MSG_ERROR",
+  },
+]
+`;
+
+exports[`authAction should set active message tab 1`] = `
+Array [
+  Object {
+    "payload": "sent",
+    "type": "SET_ACTIVE_TAB",
+  },
+]
+`;
+
+exports[`authAction should set messages 1`] = `
+Array [
+  Object {
+    "payload": Array [],
+    "type": "SET_DRAFTS",
+  },
+]
+`;
+
+exports[`authAction should set messages error 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "MSG_ERROR",
+  },
+]
+`;
+
+exports[`authAction should set messages feedback 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "MSG_FEEDBACK",
+  },
+]
+`;

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Shallow rendered Message Container should render component when read category is active 1`] = `ShallowWrapper {}`;
+
+exports[`Shallow rendered Message Container should render component when unread category is active 1`] = `ShallowWrapper {}`;
+
+exports[`Shallow rendered Message Container should render component when unread category is active 2`] = `ShallowWrapper {}`;
+
+exports[`Shallow rendered Message Container should render component when unread category is active 3`] = `ShallowWrapper {}`;
+
+exports[`Shallow rendered Message Container should render component when unread category is active 4`] = `ShallowWrapper {}`;
