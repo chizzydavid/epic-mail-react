@@ -5,4 +5,15 @@ export default {
     user: {},
     errors: {},
   },
+  messages: {
+    isLoading: false,
+    activeMsgTab: 'all',
+    allReceived: [],
+    unread: [],
+    read: [],
+    sent: [],
+    drafts: [],
+    feedback: '',
+    errors: {}
+  }
 };

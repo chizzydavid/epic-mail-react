@@ -5,6 +5,7 @@ import store from './store/index';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import jwtDecode from 'jwt-decode';
 import { setCurrentUser } from './store/actions/authActions';
@@ -27,6 +28,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/sign-up" component={SignUp} />
             <Route path="/login" component={Login} />
+            <Route exact path="/dashboard" component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
         </Router>

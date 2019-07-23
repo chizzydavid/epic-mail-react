@@ -37,7 +37,7 @@ export const setCurrentUser = payload => {
 export const loginUser = (payload) => dispatch => {
   dispatch({type: INIT_AUTH_REQUEST});
 
-  axios.post(`${authUrl}login`, payload)
+  return axios.post(`${authUrl}login`, payload)
     .then((res) => {
       const { token, user } = res.data.data;
       localStorage.setItem('token', token);

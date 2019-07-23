@@ -2,18 +2,24 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import { signUpUser } from '../../store/actions/authActions';
+import { signUpUser, loginUser } from '../../store/actions/authActions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const mockUser = {
-  firstName: 'Ochowo',
-  lastName: 'Jones',
+  firstName: 'Chizindu',
+  lastName: 'David',
   userName: 'gr',
-  email: 'pricess@gmail.com',
+  email: 'chizzydavid@gmail.com',
   password: 'password',
   confirmPassword: 'password',
 };
+
+const userData = {
+  email: 'chizzydavid@gmail.com',
+  password: 'password',
+};
+
 
 describe('authAction', () => {
   let store;
@@ -60,4 +66,46 @@ describe('authAction', () => {
   });
 
 
+  it('Logs in a user', () => {
+    nock('https://localhost:3000')
+      .post('/api/users', userData)
+      .reply(200, {
+        message: 'user registration was successful',
+        user: {
+          id: 24,
+          firstName: 'chizzy',
+          lastName: 'david',
+          email: 'chizzydavid@gmail.com',
+          userName: 'chizzy',
+        },
+        token:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI0LCJlbWFpbCI6InByaW5jZXNzQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoiZ3IiLCJpYXQiOjE1NjI1Mjg2NTcsImV4cCI6MTU2MzEzMzQ1N30.oWthtPvSh-zz4RwgHZsJtdxpjhHlUKix0oK1I9nqkOA',
+      });
+
+    return store.dispatch(loginUser(userData))
+      .then(() => {
+        const expectedActions = ['INIT_AUTH_REQUEST', 'SET_CURRENT_USER'];
+        const dispatchedAction = store.getActions();
+        const actionTypes = dispatchedAction.map(action => action.type);
+        expect(actionTypes).toEqual(expectedActions);
+        // expect(store.getActions()).toMatchSnapshot();
+
+      });
+  });
+
+  it('Logs in a user', () => {
+    nock('https://localhost:3000')
+      .post('/api/users', {})
+      .replyWithError();
+
+    return store.dispatch(loginUser({}))
+      .then(() => {
+        const expectedActions = ['INIT_AUTH_REQUEST', 'AUTH_ERROR'];
+        const dispatchedAction = store.getActions();
+
+        const actionTypes = dispatchedAction.map(action => action.type);
+        expect(actionTypes).toEqual(expectedActions);
+        // expect(store.getActions()).toMatchSnapshot();
+      });
+  });
 });
