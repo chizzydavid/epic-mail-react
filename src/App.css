@@ -6,7 +6,7 @@ body {
   padding: 0;
   width: 100%;
   min-width: 100%;
-  min-height: 100%;
+  min-height: 100% !important;
   margin: 0px;
   color: #444;
   line-height: 1.5em;
@@ -435,12 +435,33 @@ div[data-view="page"] {
   padding-right: 2em;
   background: inherit;
 }
+.compose-container {
+  padding: 80px 0px;
+  background:rgba(38, 38, 38, 0.5);
+}
+.close-icon {
+  text-align: right;
+  padding-right: 50px;
+}
+.fa.fa-close {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+}
 .container {
   max-width: 550px;
-  margin: 130px auto 80px auto;
+  margin: 140px auto 160px auto;
   padding: 30px 40px 20px 40px;
   background: white;
 }
+.c-container {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 30px 40px 20px 40px;
+  background: white;
+}
+
 form .label {
   margin-bottom: 5px;
   color: #32669a;
@@ -512,7 +533,6 @@ button[type="submit"]:focus {
   border: none;
 }
 #footer {
-  margin-top: 50px;
   padding:4em 2em ;
   width: 100%;
   font-size: 13px;
@@ -592,6 +612,7 @@ button[type="submit"]:focus {
   flex-direction: row;
   padding: 0 10em;
   line-height: 1.5em;
+  min-height: 70vh;
 }
 .messages-nav {
   flex: 1;
@@ -881,9 +902,12 @@ textarea {
   width: 60%;
   margin-bottom: 10px;
 }
+#compose-btn-wrapper {
+  width: 100%;
+}
 #save-draft, #send-message {
   display: inline-block;
-  width: 48%;
+  width: 100%;
 }
 #save-draft {
   margin-right: 2.5%;
@@ -1130,12 +1154,7 @@ textarea {
   20% {
     -webkit-transform: scaleY(1);
             transform: scaleY(1); } }
-
-
-
-
-
-
+ 
   .modal {
     position: fixed;
     left: 0;

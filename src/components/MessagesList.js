@@ -4,14 +4,14 @@ import MessageItem from './MessageItem';
 
 const MessageList = (props) => {
   const { 
-    isLoading, messages, feedback, errors
+    userId, isLoading, messages, feedback, errors, handleDelete
   } = props;
 
   const formFeedback = feedback ? feedback : errors.error ? errors.error : '';
 
-
   const allMessages = messages.map(({message_id, subject, sender_id, message, photo, status}) => 
     <MessageItem 
+      userId={userId}
       key={message_id}
       message_id={message_id}
       sender_id={sender_id}
@@ -19,6 +19,7 @@ const MessageList = (props) => {
       message={message}
       photo={photo}
       status={status}
+      handleDelete={handleDelete}
     />
   )
 
@@ -45,10 +46,12 @@ const MessageList = (props) => {
 }
 
 MessageList.propTypes = {
+  userId: PropTypes.number.isRequired,
   messages: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   feedback: PropTypes.string.isRequired,
   errors: PropTypes.object.isRequired,
+  handleDelete: PropTypes.func.isRequired
 }
 
 export default MessageList;

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import MessagesList from './MessagesList';
-import { getMessages } from '../store/actions/messageActions';
+import { getMessages, deleteMessage } from '../store/actions/messageActions';
 
 export class MessagesContainer extends Component {
   componentDidMount() {
@@ -15,11 +15,16 @@ export class MessagesContainer extends Component {
     this.props.getMessages(category);
   }
 
+  handleDelete = (id) => {
+    this.props.deleteMessage(id);
+  }
+
   render() {
     const { 
-      isLoading, activeMsgTab, feedback, allReceived, unread, read, sent, drafts, errors 
+      isLoading, activeMsgTab, feedback, allReceived, unread, read, sent, errors 
     } = this.props.messages;
-    const { isAuthenticated } = this.props;
+  
+    const { isAuthenticated, open } = this.props;
     if (!isAuthenticated) {
       return <Redirect to="/login" />;
     }  
@@ -31,21 +36,17 @@ export class MessagesContainer extends Component {
         headerName = 'All Received Messages';
         sortedMessages = allReceived;
         break;
-      case 'read':
+      case 'unread':
         headerName = 'Unread Messages';
         sortedMessages = unread;
         break;      
-      case 'unread':
+      case 'read':
         headerName = 'Read Messages';
         sortedMessages = read;
         break;  
       case 'sent':
         headerName = 'Sent Messages';
         sortedMessages = sent;
-        break;  
-      case 'draft':
-        headerName = 'Drafts';
-        sortedMessages = drafts;
         break;
       default:
         break;
@@ -56,7 +57,8 @@ export class MessagesContainer extends Component {
         <h2 className="msg-header">{headerName}</h2>
 
         <div className="main-container">
-          <Sidebar 
+          <Sidebar
+            open={open}
             handleClick={this.handleTabChange}
           />
           <MessagesList
@@ -64,6 +66,8 @@ export class MessagesContainer extends Component {
             feedback={feedback}
             errors={errors}
             messages={sortedMessages}
+            handleDelete={this.handleDelete}
+            userId={this.props.userId}
           />
         </div>
 			</div>
@@ -74,16 +78,21 @@ export class MessagesContainer extends Component {
 MessagesContainer.propTypes = {
   messages: PropTypes.object.isRequired,
   getMessages: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  deleteMessage: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  userId: PropTypes.number.isRequired,
+  open: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
   messages: state.messages,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  userId: state.auth.user.user_id
 });
 
 const mapDispatchToProps = {
-  getMessages
+  getMessages,
+  deleteMessage
 }
 
 export default connect(
