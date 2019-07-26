@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import { logoutUser } from '../../actions/authActions';
-
-class Navbar extends Component {
+export class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -13,8 +12,8 @@ class Navbar extends Component {
 		}
 		this.setResponsiveMode = this.setResponsiveMode.bind(this);
 		this.toggleOpen = this.toggleOpen.bind(this);
+		this.logout = this.logout.bind(this);
 	}
-
 
 	componentDidMount() {
 		this.setResponsiveMode();
@@ -40,8 +39,14 @@ class Navbar extends Component {
 		})
 	}
 
+	logout() {
+		localStorage.removeItem('token');
+		return <Redirect to="/login" />;
+	}
+
 	render() {
 		const { responsiveMode, isOpen } = this.state;
+		const { isAuthenticated } = this.props;
 		const { home } = this.props;
 
 		const logoUrl = `./src/img/epic_logo${home ? ".png" : "_white.png"}`;
@@ -51,11 +56,18 @@ class Navbar extends Component {
 			classname = isOpen ? `open ${classname}` : classname;
 			return classname;
 		}
-    
-    let NavbarLinks = (
+
+    let NavbarLinks = isAuthenticated && !home ? 
+    (
+      <React.Fragment>
+        <Link to="/dashboard">INBOX</Link>
+        <Link onClick={this.props.open}>COMPOSE</Link>
+        <Link onClick={this.logout}>LOGOUT</Link>         
+      </React.Fragment>
+    ) : (
         <React.Fragment>
           <Link to="/sign-up">SIGN UP</Link>
-          <Link id="login-nav" to="/login">LOGIN</Link>            
+          <Link id={home ? "login-nav" : ''} to="/login">LOGIN</Link>            
         </React.Fragment>
     )
 
@@ -87,6 +99,15 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   home: PropTypes.bool,
-};
+	isAuthenticated: PropTypes.bool,
+	open: PropTypes.func
+}
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Navbar);

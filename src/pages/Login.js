@@ -14,7 +14,7 @@ export class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errors: {}
+      validationErrors: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,8 +23,13 @@ export class Login extends Component {
   }
 
   handleChange(e) {
+    const { validationErrors } = this.state;
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      validationErrors: {
+        ...validationErrors,
+        [e.target.name]: '',
+      },      
     })
   }
 
@@ -56,12 +61,12 @@ export class Login extends Component {
 
     if (Object.keys(errors).length !== 0) {
       this.setState({
-        errors: {...errors}
+        validationErrors: {...errors}
       })
       return false;
     } else {
       this.setState({
-        errors: {}
+        validationErrors: {}
       })
       return true;
     }
@@ -86,7 +91,7 @@ export class Login extends Component {
 
   render() {
     const { isLoading, isAuthenticated, errors } = this.props.auth;
-    const { email, password } = this.state.errors;
+    const { email, password } = this.state.validationErrors;
 
     if (isAuthenticated) {
       return <Redirect to="/dashboard" />;
@@ -102,8 +107,22 @@ export class Login extends Component {
               <h3> Login </h3>
               <span className="error" id="form-feedback">{authError}</span>
 
-              <TextInput error={email ? email : ''} handleChange={this.handleChange} type="text" name="email" placeholder="Enter email" label="Email" />
-              <TextInput error={password ? password : ''} handleChange={this.handleChange} type="password" name="password" placeholder="Enter password" label="Password"/>
+              <TextInput 
+                error={email ? email : ''} 
+                handleChange={this.handleChange} 
+                type="text" 
+                name="email" 
+                placeholder="Enter email"
+                label="Email" 
+              />
+              <TextInput 
+                error={password ? password : ''} 
+                handleChange={this.handleChange} 
+                type="password" 
+                name="password" 
+                placeholder="Enter password"
+                label="Password"
+              />
 
               <Button
                 type="submit"

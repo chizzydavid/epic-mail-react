@@ -12,7 +12,6 @@ let props = {
     unread: [],
     read: [],
     sent: [],
-    drafts: [],
     errors: {}
   },
   getMessages: () => {}

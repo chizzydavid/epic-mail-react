@@ -8,6 +8,5 @@ describe('Component: Home', () => {
     const wrapper = shallow(<Home />);
     expect(wrapper.find('Landing').length).toEqual(1);
     expect(wrapper.find('Footer').length).toEqual(1);
-    expect(wrapper.find('Navbar').length).toEqual(1);
   });
 });

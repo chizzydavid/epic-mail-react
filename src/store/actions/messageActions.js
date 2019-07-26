@@ -2,12 +2,14 @@ import {
   BEGIN_MSG_REQUEST,
   MSG_ERROR,
   MSG_FEEDBACK,
+  SEND_MSG_FEEDBACK,
   SET_RECEIVED_MESSAGES,
   SET_UNREAD_MESSAGES,
   SET_READ_MESSAGES,
   SET_SENT_MESSAGES,
   SET_DRAFTS,
-  SET_ACTIVE_TAB
+  SET_ACTIVE_TAB,
+  REMOVE_MESSAGE_ALL
 } from './types';
 import axios from 'axios';
 
@@ -15,7 +17,6 @@ const msgUrl = `https://chizzy-epicmail.herokuapp.com/api/v2/messages/`
 
 export const getMessages = (category) => dispatch => {
   dispatch({type: BEGIN_MSG_REQUEST}); 
-
   const msgCategory = category === 'all' ? '' : category;
 
   return axios.get(`${msgUrl}${msgCategory}`)
@@ -25,11 +26,42 @@ export const getMessages = (category) => dispatch => {
         dispatch(messageFeedback(res.data.message));
         return;
       }
-      console.log(res.data.data);
       dispatch(setMessages(category, res.data.data));
     })
     .catch(err => {
       dispatch(messageError(err.response.data));
+    });
+}
+
+export const sendMessage = (payload) => dispatch => {
+  dispatch({type: BEGIN_MSG_REQUEST}); 
+
+  axios.post(`${msgUrl}`, payload)
+    .then((res) => {
+      if (res.data.status === 201) {
+        dispatch(sendMessageFeedback('Message sent successfully.'))
+      }
+      dispatch(setMessages('sent', res.data));
+    })
+    .catch(err => {
+      dispatch(messageError(err.response.data))
+    });
+}
+
+export const deleteMessage = (messageId) => dispatch => {
+  dispatch({type: BEGIN_MSG_REQUEST}); 
+
+  axios.delete(`${msgUrl}${messageId}`)
+    .then((res) => {
+      if (res.data.status === 200) {
+        dispatch({
+          type: REMOVE_MESSAGE_ALL,
+          payload: messageId,
+        });
+      }
+    })
+    .catch(err => {
+      dispatch(messageError(err.response.data))
     });
 }
 
@@ -63,6 +95,13 @@ export const messageError = payload => {
 export const messageFeedback = payload => {
   return {
     type: MSG_FEEDBACK,
+    payload: payload
+  }
+}
+
+export const sendMessageFeedback = payload => {
+  return {
+    type: SEND_MSG_FEEDBACK,
     payload: payload
   }
 }

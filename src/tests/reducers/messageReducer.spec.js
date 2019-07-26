@@ -8,8 +8,8 @@ const initialState = {
   unread: [],
   read: [],
   sent: [],
-  drafts: [],
   feedback: '',
+  sendMsgFeedback: '',
   errors: {}
 };
 
@@ -113,19 +113,6 @@ describe('Message Reducers', () => {
       ...initialState,
       isLoading: false, 
       sent: allMessages, 
-    });
-  });
-
-  it('should handle SET_DRAFTS', () => {
-    const newState = messageReducer(initialState, {
-      type: 'SET_DRAFTS',
-      payload: allMessages
-    });
-
-    expect(newState).toEqual({ 
-      ...initialState,
-      isLoading: false, 
-      drafts: allMessages, 
     });
   });
 
