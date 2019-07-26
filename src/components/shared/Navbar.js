@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import whiteLogo from '../../img/epic_logo_white.png';
+import darkLogo from '../../img/epic_logo.png';
 
 export class Navbar extends Component {
 	constructor(props) {
@@ -49,7 +51,7 @@ export class Navbar extends Component {
 		const { isAuthenticated } = this.props;
 		const { home } = this.props;
 
-		const logoUrl = `./src/img/epic_logo${home ? ".png" : "_white.png"}`;
+		const logo = home ? darkLogo : whiteLogo;
 		const navbarClassname = () => {
 			let classname = 'navbar';
 			classname = responsiveMode ? `responsive ${classname}` : classname;
@@ -74,7 +76,7 @@ export class Navbar extends Component {
 		return (
 			<nav className="nav-container" id={home ? "home-nav" : "page-nav"}>
 				<div className="brand-icon">
-					<p className="logo"><img className="logo-img" src={logoUrl}/></p>
+					<p className="logo"><img className="logo-img" src={logo}/></p>
 
 					<i 
 						id={home ? "nav-icon-home" : "nav-icon"} 

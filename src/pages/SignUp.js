@@ -181,11 +181,6 @@ export class SignUp extends Component {
                 label="Confirm Password" 
               />
 
-
-              <p className="label">Upload Image</p>
-              <img  width="150px" id="image-preview" />        
-              <input id="image-upload" name="photo" type="file" accept="image/*" />
-
               <Button
                 type="submit"
                 classname="submit"
