@@ -11,15 +11,14 @@ import {
   SET_ACTIVE_TAB,
   REMOVE_MESSAGE_ALL
 } from './types';
+import { BASE_URL } from '../constants';
 import axios from 'axios';
-
-const msgUrl = `https://chizzy-epicmail.herokuapp.com/api/v2/messages/`
 
 export const getMessages = (category) => dispatch => {
   dispatch({type: BEGIN_MSG_REQUEST}); 
   const msgCategory = category === 'all' ? '' : category;
 
-  return axios.get(`${msgUrl}${msgCategory}`)
+  return axios.get(`${BASE_URL}messages/${msgCategory}`)
     .then(res => {
       dispatch(setActiveMsgTab(category));
       if (res.data.message) {
@@ -36,7 +35,7 @@ export const getMessages = (category) => dispatch => {
 export const sendMessage = (payload) => dispatch => {
   dispatch({type: BEGIN_MSG_REQUEST}); 
 
-  axios.post(`${msgUrl}`, payload)
+  axios.post(`${BASE_URL}messages/`, payload)
     .then((res) => {
       if (res.data.status === 201) {
         dispatch(sendMessageFeedback('Message sent successfully.'))
@@ -51,7 +50,7 @@ export const sendMessage = (payload) => dispatch => {
 export const deleteMessage = (messageId) => dispatch => {
   dispatch({type: BEGIN_MSG_REQUEST}); 
 
-  axios.delete(`${msgUrl}${messageId}`)
+  axios.delete(`${BASE_URL}messages/${messageId}`)
     .then((res) => {
       if (res.data.status === 200) {
         dispatch({
